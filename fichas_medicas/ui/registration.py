@@ -200,13 +200,18 @@ class ConsentDialog(ctk.CTkToplevel):
         super().__init__(master)
         self.service, self.patient, self.on_saved = service, patient, on_saved
         self.title("Consentimiento de publicación")
-        self.geometry("520x650")
+        self.geometry("680x760")
+        self.minsize(560, 620)
         self.transient(master)
         self.grab_set()
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(2, weight=1)
         ctk.CTkLabel(self, text="Información que podrá ser pública", font=ctk.CTkFont(size=21, weight="bold"),
-                     wraplength=450).pack(anchor="w", padx=24, pady=(24, 8))
+                     wraplength=600).grid(row=0, column=0, sticky="w", padx=24, pady=(20, 8))
         ctk.CTkLabel(self, text="GitHub Pages es público. Un UUID no es un mecanismo de acceso privado.",
-                     text_color="#9b3f28", wraplength=450, justify="left").pack(anchor="w", padx=24, pady=(0, 14))
+                     text_color="#9b3f28", wraplength=600, justify="left").grid(
+                         row=1, column=0, sticky="w", padx=24, pady=(0, 10)
+                     )
         previous = {}
         try:
             import json
@@ -229,26 +234,37 @@ class ConsentDialog(ctk.CTkToplevel):
             "emergency_contact_3_relationship": "Contacto 3 · Parentesco",
             "emergency_contact_3_phone": "Contacto 3 · Teléfono",
         }
-        self.field_frame = ctk.CTkScrollableFrame(self, height=310, fg_color="transparent")
-        self.field_frame.pack(fill="both", expand=True, padx=8, pady=(0, 6))
+        self.field_frame = ctk.CTkScrollableFrame(self, height=320, fg_color="transparent")
+        self.field_frame.grid(row=2, column=0, sticky="nsew", padx=14, pady=(0, 8))
         for field in sorted(PUBLIC_FIELDS):
             var = ctk.BooleanVar(value=field in previous)
             self.fields[field] = var
             ctk.CTkCheckBox(self.field_frame, text=labels[field], variable=var).pack(anchor="w", padx=12, pady=4)
         self.ack = ctk.BooleanVar(value=False)
-        ctk.CTkCheckBox(self, text="Confirmo que estoy autorizado para guardar estos cambios de consentimiento.",
-                        variable=self.ack, wraplength=440).pack(anchor="w", padx=24, pady=(16, 8))
-        self.error = ctk.CTkLabel(self, text="", text_color="#b42318", wraplength=450)
-        self.error.pack(anchor="w", padx=24)
+        self.ack_checkbox = ctk.CTkCheckBox(
+            self, text="Confirmo que tengo permiso para compartir públicamente los campos seleccionados.",
+            variable=self.ack, wraplength=620,
+        )
+        self.ack_checkbox.grid(row=3, column=0, sticky="w", padx=24, pady=(6, 4))
+        self.error = ctk.CTkLabel(self, text="", text_color="#b42318", wraplength=620)
+        self.error.grid(row=4, column=0, sticky="w", padx=24, pady=(0, 2))
         buttons = ctk.CTkFrame(self, fg_color="transparent")
-        buttons.pack(fill="x", padx=18, pady=20)
-        ctk.CTkButton(buttons, text="Revocar autorización", fg_color="#9b3f28", command=self._revoke).pack(side="left", padx=6)
+        buttons.grid(row=5, column=0, sticky="ew", padx=18, pady=(4, 14))
+        ctk.CTkButton(buttons, text="Revocar autorización", fg_color="#9b3f28",
+                      command=self._revoke).pack(side="left", padx=6)
         ctk.CTkButton(buttons, text="Guardar selección", command=self._save).pack(side="right", padx=6)
 
     def _save(self):
+        selected = [key for key, var in self.fields.items() if var.get()]
+        if not selected:
+            self.error.configure(text="Selecciona al menos un campo para autorizar.")
+            return
+        if not self.ack.get():
+            self.error.configure(text="Marca la casilla de confirmación para guardar la autorización.")
+            return
         try:
             self.service.set_consent(
-                self.patient.id, granted=True, fields=[key for key, var in self.fields.items() if var.get()],
+                self.patient.id, granted=True, fields=selected,
                 acknowledged=self.ack.get(), recorded_by="Interfaz local",
             )
             self.on_saved()
@@ -257,6 +273,9 @@ class ConsentDialog(ctk.CTkToplevel):
             self.error.configure(text=str(exc))
 
     def _revoke(self):
+        if not self.ack.get():
+            self.error.configure(text="Marca la casilla de confirmación para guardar la revocación.")
+            return
         try:
             self.service.set_consent(self.patient.id, granted=False, acknowledged=self.ack.get(),
                                      recorded_by="Interfaz local", note="Revocación desde la aplicación")
