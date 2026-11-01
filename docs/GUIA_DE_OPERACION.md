@@ -20,7 +20,7 @@ Editar un expediente invalida su HTML y QR locales. Revocar, archivar o eliminar
 
 ## Respaldos y restauración
 
-En Respaldos puedes crear una copia SQLite consistente y revisar su integridad. La restauración exige confirmación y guarda primero un respaldo de seguridad de la base actual. Mantén copias en un lugar protegido y verifica que puedas recuperarlas antes de depender de ellas.
+En Respaldos puedes crear una copia SQLite consistente y revisar su integridad. La restauración exige confirmación y guarda primero un respaldo de seguridad de la base actual. Después de restaurar, vuelve a solicitar consentimiento explícito para cada perfil antes de generarlo o publicarlo. Mantén copias en un lugar protegido y verifica que puedas recuperarlas antes de depender de ellas.
 
 ## Actualizar la aplicación
 

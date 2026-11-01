@@ -6,6 +6,7 @@ import os
 import re
 import sqlite3
 import uuid
+from contextlib import closing
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -110,12 +111,17 @@ class BackupService:
                     checkpoint = active.execute("PRAGMA wal_checkpoint(TRUNCATE)").fetchone()
                     if checkpoint and checkpoint[0]:
                         raise BackupError("La base está ocupada; cierra otras operaciones e inténtalo de nuevo.")
-            with sqlite3.connect(source) as old, sqlite3.connect(temporary) as new:
-                old.backup(new)
-                new_version = int(new.execute("PRAGMA user_version").fetchone()[0])
-                if new_version > CURRENT_SCHEMA_VERSION:
-                    raise BackupError("El respaldo requiere una versión más reciente de la aplicación.")
-                migrate(new)
+            with closing(sqlite3.connect(source)) as old, closing(sqlite3.connect(temporary)) as new:
+                with old, new:
+                    old.backup(new)
+                    new_version = int(new.execute("PRAGMA user_version").fetchone()[0])
+                    if new_version > CURRENT_SCHEMA_VERSION:
+                        raise BackupError("El respaldo requiere una versión más reciente de la aplicación.")
+                    migrate(new)
+                    # Restoring an older snapshot must never reinstate a consent grant
+                    # that may have been revoked after the snapshot was created. Consent
+                    # must be confirmed again through PatientService before publication.
+                    new.execute("UPDATE patients SET consent_json = '{}'")
             self._private(temporary, file=True)
             if self.integrity_check(temporary) != "ok":
                 raise BackupError("La copia preparada para restauración no pasó la comprobación de integridad.")

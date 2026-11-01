@@ -52,6 +52,22 @@ def test_restore_requires_confirmation_and_keeps_safety_backup(tmp_path):
     assert database.path.exists()
 
 
+def test_restore_does_not_reinstate_old_publication_consent(tmp_path):
+    _, patients, backups = setup(tmp_path)
+    patient = patients.register({"full_name": "Persona demo restauración"})
+    patients.set_consent(patient.id, granted=True, fields=["full_name"], acknowledged=True)
+    old_backup = backups.create_backup()
+
+    patients.set_consent(patient.id, granted=False, acknowledged=True, note="Revocación de prueba")
+    assert patients.public_profile_data(patient.id) is None
+
+    backups.restore(old_backup, confirm_overwrite=True)
+
+    restored = patients.repository.get(patient.id)
+    assert restored.consent_json == "{}"
+    assert patients.public_profile_data(patient.id) is None
+
+
 def test_restore_rejects_unlisted_or_corrupt_backup(tmp_path):
     _, _, backups = setup(tmp_path)
     outside = tmp_path / "outside.sqlite3"

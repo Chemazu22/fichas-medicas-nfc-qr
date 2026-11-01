@@ -1,6 +1,6 @@
 # Fichas Médicas NFC/QR
 
-Aplicación local para administrar expedientes médicos. El desarrollo se organiza por fases. Esta entrega cubre las **Fases 1 a 8: persistencia, privacidad, perfiles, QR/NFC, publicación Git, interfaz de escritorio, integración, respaldos y empaquetado macOS**.
+Aplicación local para administrar expedientes médicos. El desarrollo se organiza por fases. Esta entrega cubre las **Fases 1 a 10: persistencia, privacidad, perfiles, QR/NFC, publicación Git, interfaz, respaldos y entrega local de macOS**. La firma Developer ID y la notarización para distribución pública siguen pendientes.
 
 ## Arquitectura objetivo
 
@@ -55,13 +55,13 @@ La eliminación del repositorio es lógica: el registro se marca como `deleted` 
 
 `PatientService` es la entrada de aplicación para operaciones de expediente. Para publicar datos hay que invocar `set_consent` con confirmación explícita y una selección de campos permitidos. Cada autorización o revocación se guarda junto al estado vigente y a un evento auditable en una sola transacción. El alta fuerza consentimiento vacío, y la proyección pública devuelve `None` si falta autorización, el expediente está archivado/eliminado o el JSON de consentimiento no se puede interpretar. No se permite publicar `photo_path` ni el identificador interno.
 
-El motor aún no publica páginas. Una revocación impide que los servicios de aplicación generen una proyección pública en adelante; retirar una página ya publicada requerirá que la futura integración de despliegue regenere o elimine el artefacto y lo publique. La autorización de la persona para compartir datos del contacto de emergencia no sustituye la autorización propia de ese contacto cuando sea necesaria.
+Una revocación impide que los servicios generen una proyección pública. Si ya existe una página en Pages, `DeploymentService` la marca para retirar y la elimina del repositorio en la siguiente publicación explícita. La autorización de la persona para compartir datos del contacto de emergencia no sustituye la autorización propia de ese contacto cuando sea necesaria.
 
 ## Fase 3: perfiles HTML
 
 `ProfileService.generate(patient_id)` renderiza una ficha HTML y CSS adaptable, sin JavaScript, solamente desde la proyección autorizada de `PatientService`. El nombre del archivo es el UUIDv4; todos los valores se escapan antes de incluirlos en HTML y los enlaces `tel:` se validan por separado. Las rutas por defecto son `~/Library/Application Support/FichasMedicas/profiles/`; se pueden cambiar mediante `FICHAS_MEDICAS_PROFILES_DIR`. Los directorios/archivos usan permisos privados. La salida incluye `noindex,nofollow` para desincentivar indexación; esto no es control de acceso y no evita que una URL pública sea copiada o guardada.
 
-Al generar un expediente sin autorización vigente, se elimina el HTML local correspondiente y no se devuelve una ruta. Esto no revoca una versión ya desplegada en un hosting; la futura fase de publicación deberá procesar también eliminaciones.
+Al generar un expediente sin autorización vigente, se elimina el HTML local correspondiente y no se devuelve una ruta. La eliminación remota se procesa en la siguiente publicación explícita; copias descargadas o forks de terceros pueden persistir.
 
 ## Fase 4: QR y NFC
 
@@ -99,7 +99,7 @@ La aplicación incluye una vista previa del QR. Los indicadores por persona dist
 
 ## Fase 7: integración y respaldos
 
-`BackupService` crea copias consistentes con la API de backup de SQLite, lista respaldos, ejecuta `PRAGMA integrity_check` y restaura solo archivos administrados en la carpeta privada. Restaurar requiere confirmación explícita y crea primero una copia de seguridad de la base actual; las migraciones compatibles se aplican a la copia preparada antes del reemplazo atómico. En la UI, creación y restauración corren en segundo plano.
+`BackupService` crea copias consistentes con la API de backup de SQLite, lista respaldos, ejecuta `PRAGMA integrity_check` y restaura solo archivos administrados en la carpeta privada. Restaurar requiere confirmación explícita y crea primero una copia de seguridad de la base actual; las migraciones compatibles se aplican a la copia preparada antes del reemplazo atómico. Por seguridad, la restauración descarta el consentimiento de publicación vigente en la copia restaurada; debe volver a confirmarse antes de generar o publicar perfiles. En la UI, creación y restauración corren en segundo plano.
 
 Los respaldos se guardan en `~/Library/Application Support/FichasMedicas/backups/`. La carpeta Pages solo recibe HTML UUID generado en esa publicación y `styles.css`; archivos UUID huérfanos se eliminan de la salida local y no se sincronizan. Al editar, revocar, archivar o borrar, la UI invalida HTML y QR locales. La publicación remota requiere la acción explícita de publicar; hasta completar un push exitoso, los cambios y retiros se muestran como pendientes.
 
