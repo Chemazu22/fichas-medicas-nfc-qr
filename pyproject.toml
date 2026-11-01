@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fichas-medicas"
+version = "0.1.0"
+description = "Sistema local de gestión de fichas médicas NFC/QR"
+requires-python = ">=3.10"
+dependencies = ["qrcode[pil]>=7.4.2,<9.0", "customtkinter>=5.2,<6.0"]
+
+[tool.setuptools.packages.find]
+include = ["fichas_medicas*"]
+
+[tool.setuptools.package-data]
+fichas_medicas = ["templates/*.html", "templates/*.css"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

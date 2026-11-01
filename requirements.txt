@@ -1,0 +1,5 @@
+# Generación PNG QR; Pillow se usa como backend de imagen.
+qrcode[pil]>=7.4.2,<9.0
+customtkinter>=5.2,<6.0
+# Dependencia de desarrollo:
+pytest>=8.0,<9.0

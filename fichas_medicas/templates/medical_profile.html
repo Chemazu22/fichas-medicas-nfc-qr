@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#123b45">
+  <title>Ficha médica de emergencia</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="topbar">
+      <div class="brand-mark" aria-hidden="true">+</div>
+      <div>
+        <p class="eyebrow">INFORMACIÓN PARA EMERGENCIAS</p>
+        <p class="brand-name">Ficha Médica</p>
+      </div>
+      <span class="status-pill"><span class="status-dot"></span> Perfil médico</span>
+    </header>
+
+    <section class="hero" aria-labelledby="patient-name">
+      <p class="eyebrow hero-eyebrow">IDENTIFICACIÓN</p>
+      <h1 id="patient-name">$full_name</h1>
+      $hero_details
+    </section>
+
+    <div class="content-grid">
+      $blood_type_card
+      $allergies_card
+      $medical_sections
+      $emergency_section
+    </div>
+
+    <footer class="disclaimer">
+      <span class="disclaimer-icon" aria-hidden="true">i</span>
+      <p>Esta ficha es informativa y no sustituye la valoración, el diagnóstico ni las indicaciones de profesionales de la salud. En una emergencia, contacta a los servicios de emergencia locales.</p>
+    </footer>
+    <p class="footer-brand">Ficha Médica <span>•</span> Información compartida con autorización</p>
+  </main>
+</body>
+</html>
