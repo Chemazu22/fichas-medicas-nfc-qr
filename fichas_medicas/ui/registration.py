@@ -245,7 +245,7 @@ class ConsentDialog(ctk.CTkToplevel):
         self.ack = ctk.BooleanVar(value=False)
         self.ack_checkbox = ctk.CTkCheckBox(
             self, text="Confirmo que tengo permiso para compartir públicamente los campos seleccionados.",
-            variable=self.ack, wraplength=620,
+            variable=self.ack,
         )
         self.ack_checkbox.grid(row=3, column=0, sticky="w", padx=24, pady=(6, 4))
         self.error = ctk.CTkLabel(self, text="", text_color="#b42318", wraplength=620)
