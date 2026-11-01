@@ -60,19 +60,19 @@ body {
 .card-body { margin: 0; color: var(--ink); font-size: 16px; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
 .empty-value { color: var(--muted); font-style: italic; }
 .contact-list { display: grid; gap: 0; margin: 0; }
-.card[aria-labelledby="emergency-heading"] { overflow: hidden; padding: 0; border-color: #e5bac3; }
-.card[aria-labelledby="emergency-heading"] > .card-label { margin: 0; padding: 12px 16px; background: var(--warning); color: #fff; font-size: 13px; letter-spacing: .035em; }
-.card[aria-labelledby="emergency-heading"] > .card-label .label-icon { background: rgba(255,255,255,.17); color: #fff; }
-.emergency-contact { display: grid; gap: 8px; padding: 14px 16px; border-top: 1px solid var(--line); }
-.emergency-contact:first-of-type { border-top: 0; padding-top: 0; }
-.emergency-contact:last-child { padding-bottom: 0; }
-.emergency-contact h3 { margin: 0; color: var(--teal-dark); font-size: 16px; line-height: 1.35; }
+.card[aria-labelledby="emergency-heading"] { overflow: hidden; padding: 0; border-color: var(--line); background: #fff; }
+.card[aria-labelledby="emergency-heading"] > .card-label { margin: 0; padding: 12px 16px; border-bottom: 1px solid var(--line); background: #f8faff; color: var(--teal-dark); font-size: 13px; letter-spacing: .035em; }
+.card[aria-labelledby="emergency-heading"] > .card-label .label-icon { background: #e9eef7; color: var(--warning); }
+.emergency-contact { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "title title" "details action"; align-items: center; gap: 8px 20px; padding: 16px; border-top: 1px solid var(--line); background: #fff; }
+.emergency-contact:first-of-type { border-top: 0; }
+.emergency-contact h3 { grid-area: title; margin: 0; color: var(--muted); font-size: 12px; font-weight: 750; letter-spacing: .055em; line-height: 1.35; text-transform: uppercase; }
 .contact-item { display: grid; grid-template-columns: minmax(125px, .6fr) 1.4fr; gap: 12px; padding: 7px 0; border-bottom: 1px solid #edf1f0; }
 .contact-item:last-child { border: 0; }
 .contact-item dt { color: var(--muted); font-size: 14px; }
 .contact-item dd { min-width: 0; margin: 0; color: var(--ink); font-size: 15px; font-weight: 650; overflow-wrap: anywhere; }
-.call-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: fit-content; min-height: 46px; margin-top: 2px; padding: 11px 16px; border: 2px solid var(--warning); border-radius: 12px; background: var(--warning); color: #fff; font-size: 15px; font-weight: 750; text-decoration: none; transition: background-color .15s ease, transform .15s ease; }
-.call-link:hover { transform: translateY(-1px); background: #8e0b29; }
+.emergency-contact .contact-list { grid-area: details; }
+.call-link { grid-area: action; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: fit-content; min-height: 46px; margin-top: 2px; padding: 11px 16px; border: 2px solid #14833b; border-radius: 12px; background: #159447; color: #fff; font-size: 15px; font-weight: 750; text-decoration: none; transition: background-color .15s ease, transform .15s ease; }
+.call-link:hover { transform: translateY(-1px); border-color: #116c32; background: #116c32; }
 .call-link:focus-visible { outline: 3px solid #8fcac1; outline-offset: 3px; }
 .disclaimer { display: flex; gap: 12px; align-items: flex-start; margin-top: 15px; padding: 15px 17px; border: 1px solid var(--teal-dark); border-radius: 14px; background: var(--teal-dark); color: #d9e2ee; }
 .disclaimer-icon { display: grid; flex: 0 0 24px; place-items: center; width: 24px; height: 24px; border: 1px solid #aab9cb; border-radius: 50%; color: #fff; font-family: Georgia, serif; font-size: 14px; font-weight: 700; }
@@ -96,7 +96,7 @@ body {
   .card-wide { grid-column: auto; }
   .card[aria-labelledby="emergency-heading"] { padding: 0; }
   .card[aria-labelledby="emergency-heading"] > .card-label { padding: 11px 13px; }
-  .emergency-contact { padding: 13px; }
+  .emergency-contact { grid-template-columns: 1fr; grid-template-areas: "title" "details" "action"; gap: 7px; padding: 13px; }
   .blood-value { font-size: 32px; }
   .contact-item { grid-template-columns: 1fr; gap: 2px; padding: 8px 0; }
   .contact-item dd { font-size: 16px; }
