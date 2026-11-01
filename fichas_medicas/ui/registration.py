@@ -234,7 +234,9 @@ class ConsentDialog(ctk.CTkToplevel):
             "emergency_contact_3_relationship": "Contacto 3 · Parentesco",
             "emergency_contact_3_phone": "Contacto 3 · Teléfono",
         }
-        self.field_frame = ctk.CTkScrollableFrame(self, height=320, fg_color="transparent")
+        # Keep the requested height small enough that the scrollable area can
+        # shrink on macOS Retina displays without pushing the consent footer off-screen.
+        self.field_frame = ctk.CTkScrollableFrame(self, height=200, fg_color="transparent")
         self.field_frame.grid(row=2, column=0, sticky="nsew", padx=14, pady=(0, 8))
         for field in sorted(PUBLIC_FIELDS):
             var = ctk.BooleanVar(value=field in previous)
