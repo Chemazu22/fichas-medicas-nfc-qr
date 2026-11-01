@@ -24,48 +24,47 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.page-shell { width: min(100%, 820px); margin: 0 auto; padding: 28px 24px 46px; }
+.page-shell { width: min(100%, 900px); margin: 0 auto; padding: 28px 24px 46px; }
 .topbar { display: flex; align-items: center; gap: 13px; min-height: 48px; margin-bottom: 24px; }
 .brand-mark { display: grid; flex: 0 0 42px; place-items: center; width: 42px; height: 42px; border-radius: 14px; background: var(--teal-dark); color: #fff; font-size: 28px; font-weight: 500; line-height: 1; }
 .eyebrow { margin: 0; color: var(--muted); font-size: 12px; font-weight: 750; letter-spacing: .09em; }
 .brand-name { margin: 1px 0 0; font-size: 15px; font-weight: 750; }
 .status-pill { display: flex; align-items: center; gap: 8px; margin-left: auto; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: #315951; font-size: 12px; font-weight: 700; white-space: nowrap; }
 .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #32836a; box-shadow: 0 0 0 3px #e6f3ee; }
-.hero { position: relative; overflow: hidden; padding: 32px 36px 30px; border-radius: 22px 22px 0 0; background: linear-gradient(125deg, #103940 0%, #176b68 100%); color: #fff; }
+.hero { position: relative; overflow: hidden; padding: 38px 40px 40px; border-radius: 24px; background: linear-gradient(125deg, #103940 0%, #176b68 100%); color: #fff; box-shadow: 0 16px 38px rgba(16,57,64,.16); }
 .hero::after { position: absolute; right: -55px; bottom: -115px; width: 270px; height: 270px; border: 1px solid rgba(255,255,255,.16); border-radius: 50%; box-shadow: 0 0 0 32px rgba(255,255,255,.045), 0 0 0 68px rgba(255,255,255,.035); content: ""; pointer-events: none; }
 .hero-eyebrow { position: relative; z-index: 1; color: #c1e0dd; }
 .hero h1 { position: relative; z-index: 1; margin: 8px 0 0; font-size: clamp(32px, 6vw, 48px); line-height: 1.12; letter-spacing: -.035em; overflow-wrap: anywhere; }
 .hero-details { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 9px 22px; margin-top: 18px; color: #e3f1ef; font-size: 15px; }
 .hero-details span { display: inline-flex; gap: 7px; align-items: baseline; }
 .hero-details strong { color: #fff; font-weight: 700; }
-.content-grid { display: flex; flex-direction: column; gap: 0; margin-top: 0; padding: 4px 36px 18px; border: 1px solid var(--line); border-top: 0; border-radius: 0 0 22px 22px; background: var(--paper); box-shadow: 0 18px 38px rgba(16,57,64,.1); }
-.card { min-width: 0; padding: 19px 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; box-shadow: none; }
-.content-grid > .card:last-child { border-bottom: 0; }
-.card-wide { grid-column: auto; }
-.card-label { display: flex; align-items: center; gap: 9px; margin: 0 0 9px; color: #486368; font-size: 11px; font-weight: 800; letter-spacing: .075em; line-height: 1.4; text-transform: uppercase; }
-.label-icon { display: grid; flex: 0 0 27px; place-items: center; width: 27px; height: 27px; border-radius: 9px; background: var(--teal-soft); color: var(--teal); font-size: 14px; font-weight: 800; letter-spacing: 0; }
-.blood-card { display: flex; align-items: center; justify-content: space-between; border-inline-start: 3px solid #80b9aa; padding-inline-start: 15px; }
-.blood-card .card-label { margin-bottom: 4px; }
-.blood-value { color: var(--teal-dark); font-size: 34px; font-weight: 800; letter-spacing: -.05em; line-height: 1.15; }
-.blood-symbol { display: grid; place-items: center; width: 46px; height: 46px; border: 1px solid #c5dfd9; border-radius: 15px; color: var(--teal); font-size: 23px; font-weight: 700; }
-.allergy-card { border-inline-start: 3px solid #d59a7d; padding-inline-start: 15px; }
+.content-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 18px; }
+.card { min-width: 0; padding: 24px 25px; border: 1px solid var(--line); border-radius: 18px; background: var(--paper); box-shadow: 0 5px 16px rgba(21,56,61,.035); }
+.card-wide { grid-column: 1 / -1; }
+.card-label { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; color: #486368; font-size: 12px; font-weight: 800; letter-spacing: .075em; line-height: 1.4; text-transform: uppercase; }
+.label-icon { display: grid; flex: 0 0 30px; place-items: center; width: 30px; height: 30px; border-radius: 10px; background: var(--teal-soft); color: var(--teal); font-size: 15px; font-weight: 800; letter-spacing: 0; }
+.blood-card { display: flex; align-items: center; justify-content: space-between; border-color: #c9e2dc; background: linear-gradient(135deg, #f4fbf9, #e7f4f0); }
+.blood-card .card-label { margin-bottom: 7px; }
+.blood-value { color: var(--teal-dark); font-size: 42px; font-weight: 800; letter-spacing: -.05em; line-height: 1.15; }
+.blood-symbol { display: grid; place-items: center; width: 58px; height: 58px; border: 1px solid #c5dfd9; border-radius: 18px; color: var(--teal); font-size: 27px; font-weight: 700; }
+.allergy-card { border-color: #f1d3c3; background: var(--warning-soft); }
 .allergy-card .label-icon { background: #f9e5d9; color: var(--warning); }
 .allergy-card .card-label { color: #7d412d; }
-.card-body { margin: 0; color: var(--ink); font-size: 16px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
+.card-body { margin: 0; color: var(--ink); font-size: 17px; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }
 .empty-value { color: var(--muted); font-style: italic; }
 .contact-list { display: grid; gap: 0; margin: 0; }
-.emergency-contact { display: grid; gap: 8px; padding: 14px 0; border-top: 1px solid var(--line); }
+.emergency-contact { display: grid; gap: 12px; padding: 18px 0; border-top: 1px solid var(--line); }
 .emergency-contact:first-of-type { border-top: 0; padding-top: 0; }
 .emergency-contact:last-child { padding-bottom: 0; }
-.emergency-contact h3 { margin: 0; color: var(--ink); font-size: 16px; line-height: 1.35; }
-.contact-item { display: grid; grid-template-columns: minmax(125px, .6fr) 1.4fr; gap: 12px; padding: 7px 0; border-bottom: 1px solid #edf1f0; }
+.emergency-contact h3 { margin: 0; color: var(--ink); font-size: 18px; line-height: 1.35; }
+.contact-item { display: grid; grid-template-columns: minmax(130px, .6fr) 1.4fr; gap: 14px; padding: 9px 0; border-bottom: 1px solid #edf1f0; }
 .contact-item:last-child { border: 0; }
 .contact-item dt { color: var(--muted); font-size: 14px; }
-.contact-item dd { min-width: 0; margin: 0; color: var(--ink); font-size: 15px; font-weight: 650; overflow-wrap: anywhere; }
+.contact-item dd { min-width: 0; margin: 0; color: var(--ink); font-size: 16px; font-weight: 650; overflow-wrap: anywhere; }
 .call-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: fit-content; min-height: 46px; margin-top: 2px; padding: 11px 16px; border: 2px solid var(--teal); border-radius: 12px; background: var(--teal); color: #fff; font-size: 15px; font-weight: 750; text-decoration: none; transition: background-color .15s ease, transform .15s ease; }
 .call-link:hover { transform: translateY(-1px); background: var(--teal-dark); }
 .call-link:focus-visible { outline: 3px solid #8fcac1; outline-offset: 3px; }
-.disclaimer { display: flex; gap: 12px; align-items: flex-start; margin-top: 16px; padding: 15px 17px; border: 1px solid #e0e8e7; border-radius: 14px; background: #fff; color: var(--muted); }
+.disclaimer { display: flex; gap: 12px; align-items: flex-start; margin-top: 18px; padding: 17px 19px; border: 1px solid #e0e8e7; border-radius: 15px; background: #fff; color: var(--muted); }
 .disclaimer-icon { display: grid; flex: 0 0 24px; place-items: center; width: 24px; height: 24px; border: 1px solid #b8c8c7; border-radius: 50%; color: var(--teal-dark); font-family: Georgia, serif; font-size: 14px; font-weight: 700; }
 .disclaimer p { margin: 0; font-size: 13px; line-height: 1.55; }
 .footer-brand { margin: 19px 0 0; color: #647a7e; font-size: 12px; text-align: center; }
@@ -79,12 +78,13 @@ body {
   .eyebrow { font-size: 10px; letter-spacing: .07em; }
   .brand-name { font-size: 14px; }
   .status-pill { gap: 6px; padding: 7px 9px; font-size: 11px; }
-  .hero { padding: 25px 21px 23px; border-radius: 18px 18px 0 0; }
+  .hero { padding: 27px 23px 30px; border-radius: 19px; }
   .hero h1 { font-size: clamp(30px, 9vw, 40px); }
   .hero-details { display: grid; gap: 5px; font-size: 14px; }
-  .content-grid { gap: 0; margin-top: 0; padding: 2px 21px 13px; border-radius: 0 0 18px 18px; }
-  .card { padding: 16px 0; }
-  .blood-value { font-size: 32px; }
+  .content-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 12px; }
+  .card-wide { grid-column: auto; }
+  .card { padding: 19px; border-radius: 16px; }
+  .blood-value { font-size: 38px; }
   .contact-item { grid-template-columns: 1fr; gap: 2px; padding: 8px 0; }
   .contact-item dd { font-size: 16px; }
   .call-link { width: 100%; }
@@ -97,6 +97,6 @@ body {
 @media print {
   body { background: #fff; }
   .page-shell { width: 100%; max-width: none; padding: 0; }
-  .hero, .content-grid, .card, .disclaimer { box-shadow: none; break-inside: avoid; }
+  .hero, .card, .disclaimer { box-shadow: none; break-inside: avoid; }
   .call-link { border: 1px solid var(--teal); background: #fff; color: var(--teal-dark); }
 }
