@@ -139,26 +139,37 @@ class ProfileService:
         return Template(template_text).substitute(substitutions)
 
     def _emergency_section(self, data: dict[str, object]) -> str:
-        name = _text(data.get("emergency_contact_name"))
-        relationship = _text(data.get("emergency_contact_relationship"))
-        phone = _text(data.get("emergency_contact_phone"))
-        if not any((name, relationship, phone)):
+        contacts = []
+        for index in range(1, 4):
+            suffix = "" if index == 1 else f"_{index}"
+            name = _text(data.get(f"emergency_contact{suffix}_name"))
+            relationship = _text(data.get(f"emergency_contact{suffix}_relationship"))
+            phone = _text(data.get(f"emergency_contact{suffix}_phone"))
+            if any((name, relationship, phone)):
+                contacts.append((index, name, relationship, phone))
+        if not contacts:
             return ""
-        rows = []
-        for label, value in (("Nombre", name), ("Parentesco", relationship), ("Teléfono", phone)):
-            if value:
-                rows.append(
-                    f'<div class="contact-item"><dt>{label}</dt><dd>{escape_html(value)}</dd></div>'
-                )
-        call_link = ""
-        if phone:
-            href = escape_html(telephone_href(phone))
-            call_link = f'<a class="call-link" href="{href}">Llamar al contacto <span aria-hidden="true">↗</span></a>'
+        rendered_contacts = []
+        for index, name, relationship, phone in contacts:
+            rows = []
+            for label, value in (("Nombre", name), ("Parentesco", relationship), ("Teléfono", phone)):
+                if value:
+                    rows.append(
+                        f'<div class="contact-item"><dt>{label}</dt><dd>{escape_html(value)}</dd></div>'
+                    )
+            call_link = ""
+            if phone:
+                href = escape_html(telephone_href(phone))
+                call_link = f'<a class="call-link" href="{href}">Llamar al contacto {index} <span aria-hidden="true">↗</span></a>'
+            rendered_contacts.append(
+                f'<div class="emergency-contact"><h3>Contacto {index}</h3>'
+                f'<dl class="contact-list">{"".join(rows)}</dl>{call_link}</div>'
+            )
         return (
             '<section class="card card-wide" aria-labelledby="emergency-heading">'
             '<h2 class="card-label" id="emergency-heading">'
-            '<span class="label-icon" aria-hidden="true">☎</span>Contacto de emergencia</h2>'
-            f'<dl class="contact-list">{"".join(rows)}</dl>{call_link}</section>'
+            '<span class="label-icon" aria-hidden="true">☎</span>Contactos de emergencia</h2>'
+            f'{"".join(rendered_contacts)}</section>'
         )
 
     def _write_stylesheet(self) -> None:

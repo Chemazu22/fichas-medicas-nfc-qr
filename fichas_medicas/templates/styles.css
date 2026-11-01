@@ -53,6 +53,9 @@ body {
 .card-body { margin: 0; color: var(--ink); white-space: pre-wrap; overflow-wrap: anywhere; }
 .empty-value { color: var(--muted); font-style: italic; }
 .contact-list { display: grid; gap: 12px; margin: 0; }
+.emergency-contact { display: grid; gap: 10px; padding: 14px 0; border-top: 1px solid var(--line); }
+.emergency-contact h3 { margin: 0; color: var(--ink); font-size: 16px; }
+.emergency-contact:first-of-type { border-top: 0; }
 .contact-item { display: grid; grid-template-columns: minmax(110px, .7fr) 1.3fr; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
 .contact-item:last-child { padding-bottom: 0; border: 0; }
 .contact-item dt { color: var(--muted); font-size: 13px; }
