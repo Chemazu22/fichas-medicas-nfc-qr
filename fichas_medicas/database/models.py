@@ -19,6 +19,12 @@ class Patient:
     emergency_contact_name: str
     emergency_contact_relationship: str
     emergency_contact_phone: str
+    emergency_contact_2_name: str
+    emergency_contact_2_relationship: str
+    emergency_contact_2_phone: str
+    emergency_contact_3_name: str
+    emergency_contact_3_relationship: str
+    emergency_contact_3_phone: str
     photo_path: str | None
     consent_json: str
     created_at: str

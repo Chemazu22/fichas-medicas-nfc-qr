@@ -17,11 +17,20 @@ TEXT_LIMITS = {
     "emergency_contact_name": 200,
     "emergency_contact_relationship": 100,
     "emergency_contact_phone": 40,
+    "emergency_contact_2_name": 200,
+    "emergency_contact_2_relationship": 100,
+    "emergency_contact_2_phone": 40,
+    "emergency_contact_3_name": 200,
+    "emergency_contact_3_relationship": 100,
+    "emergency_contact_3_phone": 40,
     "photo_path": 2_000,
 }
 DEFAULTS = {"allergies": "", "conditions": "", "medications": "",
             "additional_information": "", "emergency_contact_name": "",
             "emergency_contact_relationship": "", "emergency_contact_phone": "",
+            "emergency_contact_2_name": "", "emergency_contact_2_relationship": "",
+            "emergency_contact_2_phone": "", "emergency_contact_3_name": "",
+            "emergency_contact_3_relationship": "", "emergency_contact_3_phone": "",
             "photo_path": None, "consent_json": "{}", "status": "active"}
 FIELDS = set(TEXT_LIMITS) | {"date_of_birth", "blood_type", "consent_json", "status"}
 PHONE_PATTERN = re.compile(r"^[0-9+().\-\s]*$")
@@ -57,11 +66,12 @@ def validate_patient(data: dict[str, Any], *, partial: bool = False) -> dict[str
             raise ValidationError(f"{field} supera el máximo de {limit} caracteres.")
         if any(ord(char) < 32 and char not in "\n\r\t" for char in result[field]):
             raise ValidationError(f"{field} contiene caracteres de control no permitidos.")
-    if result.get("emergency_contact_phone"):
-        phone = result["emergency_contact_phone"]
-        digits = sum(char.isdigit() for char in phone)
-        if not PHONE_PATTERN.fullmatch(phone) or not 7 <= digits <= 15:
-            raise ValidationError("El teléfono de emergencia debe contener entre 7 y 15 dígitos.")
+    for field in ("emergency_contact_phone", "emergency_contact_2_phone", "emergency_contact_3_phone"):
+        if result.get(field):
+            phone = result[field]
+            digits = sum(char.isdigit() for char in phone)
+            if not PHONE_PATTERN.fullmatch(phone) or not 7 <= digits <= 15:
+                raise ValidationError("Cada teléfono de emergencia debe contener entre 7 y 15 dígitos.")
     if "date_of_birth" in result and result["date_of_birth"] not in (None, ""):
         if not isinstance(result["date_of_birth"], str):
             raise ValidationError("La fecha de nacimiento debe usar AAAA-MM-DD.")

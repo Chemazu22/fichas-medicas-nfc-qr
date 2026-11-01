@@ -8,7 +8,7 @@ GitHub Pages sirve perfiles públicamente. Un UUID difícil de adivinar no es au
 
 ## Primer uso
 
-1. Abre Fichas Médicas y registra una persona. El formulario guarda los datos localmente; no autoriza su publicación.
+1. Abre Fichas Médicas y registra una persona. Elige el nacimiento con el botón Calendario. Puedes guardar hasta tres contactos de emergencia; el teléfono acepta números con prefijo `+`, espacios, paréntesis o guiones. El formulario guarda los datos localmente; no autoriza su publicación. La migración del esquema añade los campos nuevos al abrir la versión actualizada y conserva la ficha existente.
 2. En Expedientes, abre Consentimiento y selecciona los campos autorizados. La confirmación es obligatoria.
 3. En Configuración, indica la URL HTTPS base de Pages, la carpeta de checkout y el remoto Git. Usa autenticación local de Git mediante Keychain o SSH; la aplicación no almacena tokens.
 4. Verifica Git y el remoto. Luego usa Publicar perfiles autorizados para preparar el commit y ejecutar el push.

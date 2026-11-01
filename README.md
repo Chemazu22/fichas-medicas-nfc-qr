@@ -47,7 +47,7 @@ Los archivos privados persistentes se guardan fuera del código, en `~/Library/A
 
 ## Esquema de la primera versión
 
-La tabla `patients` tiene un identificador interno, UUIDv4, nombre, nacimiento, tipo de sangre, alergias, padecimientos, medicamentos, información adicional, datos del contacto de emergencia, ruta opcional de fotografía, JSON de consentimiento, fechas UTC y estado (`active`, `archived`, `deleted`). El esquema se controla con `PRAGMA user_version` y migraciones incrementales. La versión 2 agrega `consent_events`, un historial de concesiones y revocaciones. Los nombres y estados tienen restricciones e índices.
+La tabla `patients` tiene un identificador interno, UUIDv4, nombre, nacimiento, tipo de sangre, alergias, padecimientos, medicamentos, información adicional y hasta tres contactos de emergencia, además de ruta opcional de fotografía, JSON de consentimiento, fechas UTC y estado (`active`, `archived`, `deleted`). El esquema se controla con `PRAGMA user_version` y migraciones incrementales. La versión 2 agrega `consent_events`, un historial de concesiones y revocaciones; la versión 3 añade dos contactos adicionales sin borrar datos existentes.
 
 La eliminación del repositorio es lógica: el registro se marca como `deleted` y queda fuera de las consultas normales. Esta decisión evita pérdida accidental; las políticas legales de retención y eliminación deben definirse antes de uso comercial.
 
@@ -95,7 +95,7 @@ La llamada de publicación es síncrona y tiene timeout. La interfaz la ejecuta 
 
 La aplicación se inicia con `python -m fichas_medicas.main`. La ventana ofrece navegación para dashboard, alta, búsqueda/edición, consentimiento, perfiles, QR, publicación, respaldos, configuración y acerca del sistema. La publicación corre en un hilo y entrega resultados a la UI mediante una cola. La configuración local guarda URL, ruta del checkout, remoto y apariencia; no almacena credenciales.
 
-La aplicación incluye una vista previa del QR. Los indicadores por persona distinguen publicación confirmada, publicación pendiente, actualización pendiente, revocación pendiente y publicación retirada. El índice guarda solamente UUID y estados locales, no datos médicos.
+El formulario incluye un calendario para elegir la fecha de nacimiento, validación de formato telefónico y campos para tres contactos de emergencia. La aplicación incluye una vista previa del QR. Los indicadores por persona distinguen publicación confirmada, publicación pendiente, actualización pendiente, revocación pendiente y publicación retirada. El índice guarda solamente UUID y estados locales, no datos médicos.
 
 ## Fase 7: integración y respaldos
 

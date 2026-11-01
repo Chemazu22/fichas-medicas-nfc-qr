@@ -21,6 +21,12 @@ PUBLIC_FIELDS = frozenset({
     "emergency_contact_name",
     "emergency_contact_relationship",
     "emergency_contact_phone",
+    "emergency_contact_2_name",
+    "emergency_contact_2_relationship",
+    "emergency_contact_2_phone",
+    "emergency_contact_3_name",
+    "emergency_contact_3_relationship",
+    "emergency_contact_3_phone",
 })
 
 

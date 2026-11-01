@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import sqlite3
 
-CURRENT_SCHEMA_VERSION = 2
+CURRENT_SCHEMA_VERSION = 3
 
 _MIGRATIONS: dict[int, tuple[str, ...]] = {
     1: (
@@ -43,6 +43,14 @@ _MIGRATIONS: dict[int, tuple[str, ...]] = {
             note TEXT NOT NULL DEFAULT ''
         )""",
         "CREATE INDEX idx_consent_events_patient_time ON consent_events(patient_id, recorded_at DESC)",
+    ),
+    3: (
+        "ALTER TABLE patients ADD COLUMN emergency_contact_2_name TEXT NOT NULL DEFAULT ''",
+        "ALTER TABLE patients ADD COLUMN emergency_contact_2_relationship TEXT NOT NULL DEFAULT ''",
+        "ALTER TABLE patients ADD COLUMN emergency_contact_2_phone TEXT NOT NULL DEFAULT ''",
+        "ALTER TABLE patients ADD COLUMN emergency_contact_3_name TEXT NOT NULL DEFAULT ''",
+        "ALTER TABLE patients ADD COLUMN emergency_contact_3_relationship TEXT NOT NULL DEFAULT ''",
+        "ALTER TABLE patients ADD COLUMN emergency_contact_3_phone TEXT NOT NULL DEFAULT ''",
     ),
 }
 
